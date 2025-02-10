@@ -43,7 +43,7 @@ services:
     volumes:
       - "./keycloak/db:/var/lib/postgresql/data/"
   keycloak:
-    image: jboss/keycloak:latest
+    image: quay.io/keycloak/keycloak
     volumes:
       - "./keycloak/imports/realm-export.json:/opt/jboss/keycloak/imports/realm-export.json"
     environment:
