@@ -38,6 +38,8 @@ jobs:
       - name: Start Bright Scan 🏁
         id: start
         run: |
+          bright-cli --version
+        run: |
           SCAN_ID=$(bright-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens open_buckets                 \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
