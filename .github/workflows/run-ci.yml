@@ -42,10 +42,11 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(bright-cli scan:run \
-            --name "💎 BrokenCrystals from GHA Mahir" \
-            --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
-            --repeater ${{ secrets.REPEATER }}                                            \
-            --token ${{ secrets.NEXPLOIT_TOKEN }})
+            --name "BrokenCrystals from GHA Mahir" \
+            --crawler "https://brokencrystals.com" \
+            --repeater ${{ secrets.REPEATER }} \                                            \
+            --token ${{ secrets.NEXPLOIT_TOKEN }}) \
+            --hostname https://app.brightsec.com --smart
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
