@@ -35,10 +35,11 @@ jobs:
           sudo docker-compose config
       - run: sleep 30s
       - run: sudo docker-compose logs
-      - name: Start Bright Scan 🏁
-        id: start
+      - name: Get bright-cli version
         run: |
           bright-cli --version
+      - name: Start Bright Scan 🏁
+        id: start
         run: |
           SCAN_ID=$(bright-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens open_buckets                 \
