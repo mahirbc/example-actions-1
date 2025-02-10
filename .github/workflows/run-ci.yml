@@ -35,10 +35,10 @@ jobs:
           sudo docker-compose config
       - run: sleep 30s
       - run: sudo docker-compose logs
-      - name: Start Nexploit Scan 🏁
+      - name: Start Bright Scan 🏁
         id: start
         run: |
-          SCAN_ID=$(nexploit-cli scan:run                                                 \
+          SCAN_ID=$(bright-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens open_buckets                 \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
             --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
@@ -50,7 +50,7 @@ jobs:
           printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
       - name: Wait for issues ⏳
         run: |
-          nexploit-cli scan:polling               \
+          bright-cli scan:polling               \
             --interval 30s                        \
             --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
@@ -58,4 +58,4 @@ jobs:
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
-        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+        run: bright-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
