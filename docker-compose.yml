@@ -25,12 +25,12 @@ services:
     depends_on:
       - nodejs
   repeater:
-    image: neuralegion/repeater:latest
+    image: brightsec/cli
     restart: always
     environment:
       REPEATER_TOKEN: $NEXPLOIT_TOKEN
       REPEATER_AGENT: $REPEATER
-      DEBUG: nexploit-cli
+      DEBUG: brightsec-cli
   keycloak-db:
     image: "postgres:12.2-alpine"
     environment:
