@@ -28,9 +28,9 @@ jobs:
       - name: Docker-Compose
         run: |
           sudo docker-compose \
+            up -d \
             -e REPEATER_TOKEN="${{ secrets.NEXPLOIT_TOKEN }}" \
             -e REPEATER_AGENT="${{ secrets.REPEATER }}" \
-            up -d
           sudo docker-compose config
       - run: sleep 30s
       - run: sudo docker-compose logs
