@@ -45,8 +45,7 @@ jobs:
         run: |
           SCAN_ID=$(bright-cli scan:run \
             --name "BrokenCrystals from GHA Mahir" \
-            --crawler "https://brokencrystals.com" \
-            --repeater ${{ secrets.REPEATER }} \                                            \
+            --crawler "https://brokencrystals.com" \                                           \
             --token ${{ secrets.NEXPLOIT_TOKEN }} --log-level verbose 2>&1)
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
