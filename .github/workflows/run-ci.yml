@@ -35,18 +35,13 @@ jobs:
           sudo docker-compose config
       - run: sleep 30s
       - run: sudo docker-compose logs
-      - name: Get bright-cli Node and npm versions
-        run: |
-          bright-cli --version
-          node -v  
-          npm -v
       - name: Start Bright Scan 🏁
         id: start
         run: |
           SCAN_ID=$(bright-cli scan:run \
             --name "BrokenCrystals from GHA Mahir" \
-            --crawler "https://brokencrystals.com" \                                           \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} --log-level verbose 2>&1)
+            --crawler "https://brokencrystals.com" \
+            --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
