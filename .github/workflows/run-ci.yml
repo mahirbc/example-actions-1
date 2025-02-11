@@ -28,6 +28,7 @@ jobs:
       - name: Set environment variables
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
+          cat .env
       - name: Docker-Compose
         run: |
           sudo docker-compose --env-file .env up -d
