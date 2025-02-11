@@ -15,7 +15,7 @@ on:
 jobs:
   start_and_wait_scan:
     runs-on: ubuntu-20.04
-    name: A job to run a Nexploit scan
+    name: A job to run a Bright scan
     steps:
       - uses: actions/checkout@v2
       - run: |
@@ -24,7 +24,7 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           sudo apt-get install -y nodejs npm
-          sudo npm install -g @brightsec/cli
+          sudo npm install -g @brightsec/cli:latest
       - name: Save environment variables
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
@@ -46,7 +46,7 @@ jobs:
             --crawler "https://brokencrystals.com" \
             --repeater ${{ secrets.REPEATER }} \                                            \
             --token ${{ secrets.NEXPLOIT_TOKEN }}) \
-            --hostname https://app.brightsec.com --smart
+            --smart
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
