@@ -45,7 +45,7 @@ jobs:
             --name "BrokenCrystals from GHA Mahir" \
             --crawler "https://brokencrystals.com" \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --repeater ${{ secrets.REPEATER }} \
+            --repeater v81XNibUpQ5V2DPif1aSkh \
             --template ${{ secrets.OWASP_TOP_10 }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
