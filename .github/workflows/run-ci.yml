@@ -32,8 +32,8 @@ jobs:
           pwd
       - name: Docker-Compose
         run: |
-          sudo docker-compose --env-file .env up -d
-          sudo docker-compose config
+          sudo docker-compose -f lean-docker-compose.yml --env-file .env up -d
+          sudo docker-compose -f lean-docker-compose.yml config
       - run: sleep 30s
       - run: sudo docker-compose logs
       - name: Start Bright Scan 🏁
