@@ -35,7 +35,7 @@ jobs:
           sudo docker-compose -f lean-docker-compose.yml --env-file .env up -d
           sudo docker-compose -f lean-docker-compose.yml config
       - run: sleep 30s
-      - run: sudo docker-compose logs
+      - run: sudo docker-compose -f lean-docker-compose.yml logs
       - name: Start Bright Scan 🏁
         id: start
         run: |
