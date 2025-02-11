@@ -35,13 +35,17 @@ jobs:
           sudo docker-compose config
       - run: sleep 30s
       - run: sudo docker-compose logs
+      - name: Initialize the repeater
+        run: |
+          docker run --rm brightsec/cli repeater --token ${{ secrets.NEXPLOIT_TOKEN }} --id ${{ secrets.REPEATER }}
       - name: Start Bright Scan 🏁
         id: start
         run: |
           SCAN_ID=$(bright-cli scan:run \
             --name "BrokenCrystals from GHA Mahir" \
             --crawler "https://brokencrystals.com" \
-            --token ${{ secrets.NEXPLOIT_TOKEN }})
+            --token ${{ secrets.NEXPLOIT_TOKEN }}) \
+            --repeater ${{ secrets.REPEATER }}
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
