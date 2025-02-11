@@ -37,7 +37,7 @@ jobs:
       - run: sudo docker-compose logs
       - name: Initialize the repeater
         run: |
-          docker run --rm brightsec/cli repeater --token ${{ secrets.NEXPLOIT_TOKEN }} --id ${{ secrets.REPEATER }}
+          docker run -d --rm brightsec/cli repeater --token ${{ secrets.NEXPLOIT_TOKEN }} --id ${{ secrets.REPEATER }}
       - name: Start Bright Scan 🏁
         id: start
         run: |
@@ -56,7 +56,7 @@ jobs:
             --interval 30s                        \
             --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
+            --breakpoint any $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
