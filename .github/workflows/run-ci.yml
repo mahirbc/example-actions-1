@@ -26,7 +26,6 @@ jobs:
           sudo apt-get install -y nodejs npm
           sudo npm install -g @brightsec/cli
       - name: Set environment variables
-        working-directory: ${{ github.workspace }} 
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
       - name: Docker-Compose
