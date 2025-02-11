@@ -25,7 +25,7 @@ services:
     depends_on:
       - nodejs
   repeater:
-    image: brightsec/cli
+    image: brightsec/cli:latest
     restart: always
     environment:
       REPEATER_TOKEN: $NEXPLOIT_TOKEN
