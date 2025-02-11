@@ -30,7 +30,7 @@ services:
     environment:
       REPEATER_TOKEN: $NEXPLOIT_TOKEN
       REPEATER_AGENT: $REPEATER
-    command: ["brightsec/cli", "repeater", "--token", "$REPEATER_TOKEN", "--id", "$REPEATER_AGENT"]
+    command: ["bright-cli", "repeater", "--token", "$REPEATER_TOKEN", "--id", "$REPEATER_AGENT"]
   keycloak-db:
     image: "postgres:12.2-alpine"
     environment:
