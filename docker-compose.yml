@@ -27,10 +27,7 @@ services:
   repeater:
     image: brightsec/cli:latest
     restart: always
-    environment:
-      REPEATER_TOKEN: $NEXPLOIT_TOKEN
-      REPEATER_AGENT: $REPEATER
-    command: ["repeater", "--token", "$REPEATER_TOKEN", "--id", "$REPEATER_AGENT"]
+    command: ["repeater", "--token", "$NEXPLOIT_TOKEN", "--id", "$REPEATER"]
   keycloak-db:
     image: "postgres:12.2-alpine"
     environment:
