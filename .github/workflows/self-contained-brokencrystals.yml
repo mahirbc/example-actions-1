@@ -1,4 +1,4 @@
-name: CI
+name: Self Contained BrokenCrystals GHA CI Bright-Cli Test
 
 on:
   push:
@@ -29,7 +29,6 @@ jobs:
         run: |
           printf "BRIGHT_TOKEN=${{ secrets.BRIGHT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
           cat .env
-          pwd
       - name: Docker-Compose
         run: |
           sudo docker-compose -f brokencystals-and-repeater.yml --env-file .env up -d
@@ -40,9 +39,9 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(bright-cli scan:run \
-            --name "BrokenCrystals from GHA Mahir" \
-            --crawler "https://brokencrystals.com" \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --name "BrokenCrystals.local from GHA" \
+            --crawler "https://brokencrystals.local" \
+            --token ${{ secrets.BRIGHT_TOKEN }} \
             --repeater ${{ secrets.REPEATER }} \
             --template ${{ secrets.OWASP_TOP_10 }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
