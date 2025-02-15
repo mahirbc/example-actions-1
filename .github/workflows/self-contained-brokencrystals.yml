@@ -33,12 +33,11 @@ jobs:
         run: |
           sudo docker-compose -f brokencystals-and-repeater.yml --env-file .env up -d
           sudo docker-compose -f brokencystals-and-repeater.yml config
-      - run: sleep 45s
+      - run: sleep 60s
       - run: sudo docker-compose -f brokencystals-and-repeater.yml logs
       - name: Start Bright Scan 🏁
         id: start
         run: |
-          curl https://brokencrystals.local \
           SCAN_ID=$(bright-cli scan:run \
             --name "BrokenCrystals.local from GHA" \
             --crawler "https://brokencrystals.local/" \
