@@ -4,4 +4,4 @@ services:
     container_name: bright-repeater
     image: brightsec/cli:latest
     restart: always
-    command: ["repeater", "--token", "$NEXPLOIT_TOKEN", "--id", "$REPEATER"]
+    command: ["repeater", "--token", "$BRIGHT_TOKEN", "--id", "$REPEATER"]
