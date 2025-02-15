@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - crawler
+      - har-file
+      - swagger
+      - brokencrystals
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 0 * * THU"
+
+jobs:
+  start_and_wait_scan:
+    runs-on: ubuntu-latest
+    name: A job to run a Bright scan
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          sudo apt update
+          sudo apt install -y libssl-dev libnode-dev
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          sudo apt-get install -y nodejs npm
+          sudo npm install -g @brightsec/cli
+      - name: Set environment variables
+        run: |
+          printf "BRIGHT_TOKEN=${{ secrets.BRIGHT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
+          cat .env
+          pwd
+      - name: Docker-Compose
+        run: |
+          sudo docker-compose -f brokencystals-and-repeater.yml --env-file .env up -d
+          sudo docker-compose -f brokencystals-and-repeater.yml config
+      - run: sleep 30s
+      - run: sudo docker-compose -f brokencystals-and-repeater.yml logs
+      - name: Start Bright Scan 🏁
+        id: start
+        run: |
+          SCAN_ID=$(bright-cli scan:run \
+            --name "BrokenCrystals from GHA Mahir" \
+            --crawler "https://brokencrystals.com" \
+            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --repeater ${{ secrets.REPEATER }} \
+            --template ${{ secrets.OWASP_TOP_10 }})
+          echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
+      - name: Get the output scan url 🔗
+        run: |
+          printf "Scan was started: https://app.brightsec.com/scans/$SCAN_ID"
+      - name: Wait for issues ⏳
+        run: |
+          bright-cli scan:polling               \
+            --interval 30s                        \
+            --timeout 10m                         \
+            --token ${{ secrets.BRIGHT_TOKEN }} \
+            --breakpoint any $SCAN_ID
+      - name: Stop Scan 🛑
+        continue-on-error: true
+        if: ${{ always() }}
+        run: bright-cli scan:stop --token ${{ secrets.BRIGHT_TOKEN }} $SCAN_ID
