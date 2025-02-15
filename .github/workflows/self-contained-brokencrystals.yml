@@ -40,7 +40,7 @@ jobs:
         run: |
           SCAN_ID=$(bright-cli scan:run \
             --name "BrokenCrystals.local from GHA" \
-            --crawler "https://brokencrystals.local" \
+            --crawler "https://brokencrystals.com" \
             --token ${{ secrets.BRIGHT_TOKEN }} \
             --repeater ${{ secrets.REPEATER }} \
             --template ${{ secrets.OWASP_TOP_10 }})
