@@ -27,7 +27,7 @@ jobs:
           sudo npm install -g @brightsec/cli
       - name: Set environment variables
         run: |
-          printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
+          printf "BRIGHT_TOKEN=${{ secrets.BRIGHT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
           cat .env
           pwd
       - name: Docker-Compose
@@ -40,23 +40,23 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(bright-cli scan:run \
-            --name "BrokenCrystals from GHA Mahir" \
+            --name "BrokenCrystals from GHA" \
             --crawler "https://brokencrystals.com" \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --token ${{ secrets.BRIGHT_TOKEN }} \
             --repeater ${{ secrets.REPEATER }} \
             --template ${{ secrets.OWASP_TOP_10 }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
         run: |
-          printf "Scan was started with ID https://nexploit.app/scans/$SCAN_ID"
+          printf "Scan was started with ID https://app.brightsec.com/scans/$SCAN_ID"
       - name: Wait for issues ⏳
         run: |
           bright-cli scan:polling               \
             --interval 30s                        \
             --timeout 10m                         \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --token ${{ secrets.BRIGHT_TOKEN }} \
             --breakpoint any $SCAN_ID
       - name: Stop Scan 🛑
         continue-on-error: true
         if: ${{ always() }}
-        run: bright-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+        run: bright-cli scan:stop --token ${{ secrets.BRIGHT_TOKEN }} $SCAN_ID
