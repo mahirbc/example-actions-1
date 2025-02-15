@@ -1,4 +1,6 @@
 version: '3'
+networks:
+  bright-network:
 services:
   db:
     image: postgres
@@ -9,6 +11,8 @@ services:
       POSTGRES_PASSWORD: bc
     volumes:
     - ./pg.sql:/docker-entrypoint-initdb.d/pg.sql
+    networks:
+      - bright-network
   nodejs:
     image: neuralegion/brokencrystals
     restart: always
@@ -19,15 +23,21 @@ services:
     depends_on:
       - db
       - keycloak
+    networks:
+      - bright-network
   brokencrystals.local:
     image: neuralegion/brokencrystals-proxy-http
     restart: always
     depends_on:
       - nodejs
+    networks:
+      - bright-network
   repeater:
     image: brightsec/cli:latest
     restart: always
-    command: ["repeater", "--token", "$NEXPLOIT_TOKEN", "--id", "$REPEATER"]
+    command: ["repeater", "--token", "$BRIGHT_TOKEN", "--id", "$REPEATER"]
+    networks:
+      - bright-network
   keycloak-db:
     image: "postgres:12.2-alpine"
     environment:
@@ -39,6 +49,8 @@ services:
     tty: true
     volumes:
       - "./keycloak/db:/var/lib/postgresql/data/"
+    networks:
+      - bright-network
   keycloak:
     image: quay.io/keycloak/keycloak
     volumes:
@@ -55,3 +67,5 @@ services:
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled
     depends_on:
       - keycloak-db
+    networks:
+      - bright-network
